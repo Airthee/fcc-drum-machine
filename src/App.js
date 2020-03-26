@@ -1,12 +1,9 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import AppHeader from './components/AppHeader';
+import DrumMachine from './components/DrumMachine';
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <Container className="bg-light" style={{minHeight: '100vh'}}>
@@ -17,7 +14,7 @@ class App extends React.Component {
         </Row>
         <Row>
           <Col>
-            MY CONTENT
+            <DrumMachine id="drum-machine" />
           </Col>
         </Row>
       </Container>
