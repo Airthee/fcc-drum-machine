@@ -3,116 +3,75 @@ import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
 import './DrumPad.scss';
 
-const buttons = [
-  [
-    {
-      letter: 'Q',
-      description: 'button-Q',
-      soundUrl: ''
-    },
-    {
-      letter: 'W',
-      description: 'button-W',
-      soundUrl: ''
-    },
-    {
-      letter: 'E',
-      description: 'button-E',
-      soundUrl: ''
-    }
-  ],
-  [
-    {
-      letter: 'A',
-      description: 'button-A',
-      soundUrl: ''
-    },
-    {
-      letter: 'S',
-      description: 'button-S',
-      soundUrl: ''
-    },
-    {
-      letter: 'D',
-      description: 'button-D',
-      soundUrl: ''
-    }
-  ],
-  [
-    {
-      letter: 'Z',
-      description: 'button-Z',
-      soundUrl: ''
-    },
-    {
-      letter: 'X',
-      description: 'button-X',
-      soundUrl: ''
-    },
-    {
-      letter: 'C',
-      description: 'button-C',
-      soundUrl: ''
-    }
-  ]
-];
-
 class DrumPad extends React.Component {
   constructor(props) {
     super(props);
-    this.renderButtonsRow = this.renderButtonsRow.bind(this);
-    this.renderButton = this.renderButton.bind(this);
+    
+    this.state = {
+      isPlaying: false
+    };
+
+    this.audioRef = React.createRef();
+    this.handleClick = this.handleClick.bind(this);
+    this.handlePlayStart = this.handlePlayStart.bind(this);
+    this.handlePlayStop = this.handlePlayStop.bind(this);
+    this.playSound = this.playSound.bind(this);
   }
 
-  renderButton(lineIndex, colIndex) {
-    // Get button letter
-    const button = buttons[lineIndex][colIndex];
-
-    // Render button
-    return (
-      <Button
-        id={button.description}
-        className="drum-pad"
-        onClick={this.props.onClickButton.bind(this, lineIndex, colIndex)}
-        block
-      >
-        <audio className="clip" src={button.soundUrl} id={button.letter} />
-        {button.letter}
-      </Button>
-    );
+  handleClick() {
+    this.props.onClick();
+    this.playSound();
   }
 
-  renderButtonsRow(lineIndex) {
-    // Render columns
-    const renderColumns = buttons[lineIndex].map((_buttonLetter, colIndex) => (
-      <td key={colIndex}>
-        {this.renderButton(lineIndex, colIndex)}
-      </td>
-    ));
+  handlePlayStart() {
+    // this.setState({isPlaying: true});
+    this.props.onPlayStart();
+  }
 
-    // Render row
-    return (
-      <tr key={lineIndex}>
-        {renderColumns}
-      </tr>
-    );
+  handlePlayStop() {
+    // this.setState({isPlaying: false});
+    this.props.onPlayStop();
+  }
+
+  playSound() {
+    this.audioRef.current.play();
   }
 
   render() {
-    const renderButtons = buttons.map((_buttonsLine, lineIndex) => this.renderButtonsRow(lineIndex));
-
     return (
-      <table>
-        <tbody>
-          {renderButtons}
-        </tbody>
-      </table>
+      <Button
+        id={this.props.id}
+        className="drum-pad"
+        onClick={this.handleClick}
+        block
+      >
+        <audio
+          className="clip"
+          onEnded={this.handlePlayStop}
+          onPlay={this.handlePlayStart}
+          ref={this.audioRef}
+          src={this.props.soundSrc}
+          id={this.props.text}
+        />
+        {this.props.text}
+      </Button>
     );
   }
 }
 
 DrumPad.propTypes = {
-  onClickButton: PropTypes.func.isRequired
+  id: PropTypes.string,
+  onClick: PropTypes.func,
+  onPlayStart: PropTypes.func,
+  onPlayStop: PropTypes.func,
+  soundSrc: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired
 };
+
+DrumPad.defaultProps = {
+  onClick(){},
+  onPlayStart(){},
+  onPlayStop(){}
+}
 
 export default DrumPad;
