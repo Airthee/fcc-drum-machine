@@ -1,4 +1,17 @@
+$size: 100px;
+$initial-background-color: #aed5ff;
+$active-background-color: #ff0505;
+
 .drum-pad {
-  width: 100px;
-  height: 100px;
+  width: $size;
+  height: $size;
+  line-height: $size;
+  user-select:none;
+  cursor: pointer;
+  background-color: #c1d3e2;
+  border-radius: $size / 20;
+
+  &.active {
+    background-color: $active-background-color;
+  }
 }

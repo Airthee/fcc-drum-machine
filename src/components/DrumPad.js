@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'react-bootstrap';
 import './DrumPad.scss';
 
 class DrumPad extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      active: false
+    };
 
     this.audioRef = React.createRef();
 
@@ -22,6 +24,8 @@ class DrumPad extends React.Component {
 
   handlePlayStart() {
     this.props.onPlayStart();
+    this.setState({active: true});
+    setTimeout(() => this.setState({active: false}), this.props.activeTimeout);
   }
 
   handlePlayStop() {
@@ -32,19 +36,22 @@ class DrumPad extends React.Component {
     // If the audio is not playing, we trigger the play
     // Else we reset the time
     const currentAudio = this.audioRef.current;
-    if (currentAudio.currentTime === 0) {
-      currentAudio.play();
-    }
-    else {
+    if (currentAudio.currentTime !== 0) {
       currentAudio.currentTime = 0;
     }
+    currentAudio.play();
   }
 
   render() {
+    const buttonClasses = [
+      'drum-pad',
+      this.state.active ? 'active' : null
+    ].join(' ');
+
     return (
-      <Button
+      <div
         id={this.props.id}
-        className="drum-pad"
+        className={buttonClasses}
         onClick={this.handleClick}
       >
         <audio
@@ -55,7 +62,7 @@ class DrumPad extends React.Component {
           id={this.props.text}
         />
         {this.props.text}
-      </Button>
+      </div>
     );
   }
 }
@@ -71,7 +78,8 @@ DrumPad.propTypes = {
 
 DrumPad.defaultProps = {
   onPlayStart(){},
-  onPlayStop(){}
+  onPlayStop(){},
+  activeTimeout: 200
 }
 
 export default DrumPad;

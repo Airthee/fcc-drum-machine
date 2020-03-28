@@ -103,11 +103,11 @@ class DrumMachine extends React.Component {
       });
     };
 
-    // const handlePlayStop = () => {
-    //   this.setState({
-    //     displayText: ''
-    //   });
-    // };
+    const handlePlayStop = () => {
+      this.setState({
+        displayText: ''
+      });
+    };
 
     // Render button
     return (
@@ -116,7 +116,7 @@ class DrumMachine extends React.Component {
         soundSrc={button.soundUrl}
         text={button.letter}
         onPlayStart={handlePlayStart.bind(this)}
-        // onPlayStop={handlePlayStop.bind(this)}
+        onPlayStop={handlePlayStop.bind(this)}
       />
     );
   }
