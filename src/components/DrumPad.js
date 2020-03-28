@@ -28,14 +28,15 @@ class DrumPad extends React.Component {
   }
 
   playSound() {
-    // If the audio is already playing, we clone the audio
-    // Allow the user to play multiple time
+    // If the audio is not playing, we trigger the play
+    // Else we reset the time
     const currentAudio = this.audioRef.current;
-    if (currentAudio.currentTime !== 0) {
-      currentAudio.pause();
+    if (currentAudio.currentTime === 0) {
+      currentAudio.play();
+    }
+    else {
       currentAudio.currentTime = 0;
     }
-    currentAudio.play();
   }
 
   render() {
