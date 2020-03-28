@@ -16,6 +16,7 @@ class DrumPad extends React.Component {
   }
 
   handleClick() {
+    this.handlePlayStart();
     this.playSound();
   }
 
@@ -51,7 +52,6 @@ class DrumPad extends React.Component {
           ref={this.audioRef}
           src={this.props.soundSrc}
           onEnded={this.handlePlayStop}
-          onPlay={this.handlePlayStart}
           id={this.props.text}
         />
         {this.props.text}
