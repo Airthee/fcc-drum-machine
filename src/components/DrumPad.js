@@ -6,12 +6,9 @@ import './DrumPad.scss';
 class DrumPad extends React.Component {
   constructor(props) {
     super(props);
-    
-    this.state = {
-      isPlaying: false
-    };
 
     this.audioRef = React.createRef();
+
     this.handleClick = this.handleClick.bind(this);
     this.handlePlayStart = this.handlePlayStart.bind(this);
     this.handlePlayStop = this.handlePlayStop.bind(this);
@@ -19,22 +16,26 @@ class DrumPad extends React.Component {
   }
 
   handleClick() {
-    this.props.onClick();
     this.playSound();
   }
 
   handlePlayStart() {
-    // this.setState({isPlaying: true});
     this.props.onPlayStart();
   }
 
   handlePlayStop() {
-    // this.setState({isPlaying: false});
     this.props.onPlayStop();
   }
 
   playSound() {
-    this.audioRef.current.play();
+    // If the audio is already playing, we clone the audio
+    // Allow the user to play multiple time
+    const currentAudio = this.audioRef.current;
+    if (currentAudio.currentTime !== 0) {
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+    }
+    currentAudio.play();
   }
 
   render() {
@@ -43,14 +44,13 @@ class DrumPad extends React.Component {
         id={this.props.id}
         className="drum-pad"
         onClick={this.handleClick}
-        block
       >
         <audio
           className="clip"
-          onEnded={this.handlePlayStop}
-          onPlay={this.handlePlayStart}
           ref={this.audioRef}
           src={this.props.soundSrc}
+          onEnded={this.handlePlayStop}
+          onPlay={this.handlePlayStart}
           id={this.props.text}
         />
         {this.props.text}
@@ -69,7 +69,6 @@ DrumPad.propTypes = {
 };
 
 DrumPad.defaultProps = {
-  onClick(){},
   onPlayStart(){},
   onPlayStop(){}
 }

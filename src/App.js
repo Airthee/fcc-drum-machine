@@ -12,8 +12,8 @@ class App extends React.Component {
             <AppHeader />
           </Col>
         </Row>
-        <Row>
-          <Col>
+        <Row className="justify-content-center">
+          <Col md={6} className="text-center">
             <DrumMachine id="drum-machine" />
           </Col>
         </Row>

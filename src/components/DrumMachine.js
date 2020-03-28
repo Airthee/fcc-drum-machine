@@ -11,51 +11,51 @@ class DrumMachine extends React.Component {
         [
           {
             letter: 'Q',
-            description: '8ACSM',
+            description: '8 ACSM',
             soundUrl: '/sounds/8ACSM.wav'
           },
           {
             letter: 'W',
-            description: '12ACSM',
+            description: '12 ACSM',
             soundUrl: '/sounds/12ACSM.wav'
           },
           {
             letter: 'E',
-            description: 'HiHat-M',
+            description: 'HiHat M',
             soundUrl: '/sounds/HiHat-M.wav'
           }
         ],
         [
           {
             letter: 'A',
-            description: 'S3HIM',
+            description: 'S3 HIM',
             soundUrl: '/sounds/S3HIM.wav'
           },
           {
             letter: 'S',
-            description: 'S3LOM',
+            description: 'S3 LOM',
             soundUrl: '/sounds/S3LOM.wav'
           },
           {
             letter: 'D',
-            description: 'snare-R1M',
+            description: 'snare R1M',
             soundUrl: '/sounds/snare-R1M.wav'
           }
         ],
         [
           {
             letter: 'Z',
-            description: 'snare-R2M',
+            description: 'snare R2M',
             soundUrl: '/sounds/snare-R2M.wav'
           },
           {
             letter: 'X',
-            description: 'snare-R4M',
+            description: 'snare R4M',
             soundUrl: '/sounds/snare-R4M.wav'
           },
           {
             letter: 'C',
-            description: 'TOM1C-L',
+            description: 'TOM 1C L',
             soundUrl: '/sounds/TOM1C-L.wav'
           }
         ]
@@ -103,20 +103,20 @@ class DrumMachine extends React.Component {
       });
     };
 
-    const handlePlayStop = () => {
-      this.setState({
-        displayText: ''
-      });
-    };
+    // const handlePlayStop = () => {
+    //   this.setState({
+    //     displayText: ''
+    //   });
+    // };
 
     // Render button
     return (
       <DrumPad
-        id={button.description}
+        id={button.description.replace(/ +/g, '-')}
         soundSrc={button.soundUrl}
         text={button.letter}
         onPlayStart={handlePlayStart.bind(this)}
-        onPlayStop={handlePlayStop.bind(this)}
+        // onPlayStop={handlePlayStop.bind(this)}
       />
     );
   }
@@ -141,7 +141,7 @@ class DrumMachine extends React.Component {
     const renderButtons = this.state.buttons.map((_buttonsLine, lineIndex) => this.renderButtonsRow(lineIndex));
 
     return (
-      <table>
+      <table style={{margin: 'auto'}}>
         <tbody>
           {renderButtons}
         </tbody>
@@ -152,7 +152,7 @@ class DrumMachine extends React.Component {
   render() {
     return (
       <div id={this.props.id}>
-        <div id="display" style={{height: '50px'}}>
+        <div id="display" style={{height: '2em'}}>
           {this.state.displayText}
         </div>
         {this.renderButtons()}
